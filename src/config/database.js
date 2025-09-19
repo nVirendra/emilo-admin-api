@@ -4,10 +4,7 @@ import { ENV } from './env.js';
 const connectDB = async () => {
   const uri = ENV.MONGO_URI;
   try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(uri)
     console.log(' MongoDB connected successfully');
   } catch (err) {
     console.error(' MongoDB connection failed:', err);

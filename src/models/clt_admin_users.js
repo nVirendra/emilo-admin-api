@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const adminUserSchema = new mongoose.Schema(
   {
@@ -23,9 +24,10 @@ const adminUserSchema = new mongoose.Schema(
       ref: "Role", // references RoleModel
       required: true
     },
-    isActive: {
-      type: Boolean,
-      default: true
+    status: {
+      type: String,
+      enum:['Pending', 'Active'],
+      default: "Pending",
     },
     lastLogin: {
       type: Date,
@@ -34,6 +36,17 @@ const adminUserSchema = new mongoose.Schema(
   },
   { timestamps: true } // adds createdAt & updatedAt
 );
+
+adminUserSchema.pre("save", async function (next) {
+  if (!this.isModified("passwordHash")) return next();
+  const salt = await bcrypt.genSalt(10);
+  this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
+  next();
+});
+
+adminUserSchema.methods.matchPassword = async function (password) {
+  return await bcrypt.compare(password, this.passwordHash);
+};
 
 // Export as AdminUserModel to prevent conflicts
 export const AdminUserModel = mongoose.model("AdminUser", adminUserSchema, "clt_admin_users");

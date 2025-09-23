@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import errorHandler from './middlewares/errorHandler.js';
 import authRoutes from './routes/auth.routes.js'
 import roleRoutes from './routes/role.routes.js'
+import menuRoutes from './routes/menu.routes.js'
 
 dotenv.config();
 const app = express();
@@ -33,9 +34,9 @@ app.get('/', (req, res) => {
   res.send('SoftCorner Welcomes you API is running...');
 });
 
-app.use('/api/auth',authRoutes);
-app.use('/api/roles',roleRoutes);
-
+app.use('/api/admin/auth',authRoutes);
+app.use('/api/admin/menus',menuRoutes);
+app.use('/api/admin/roles',roleRoutes);
 
 app.use(errorHandler);
 

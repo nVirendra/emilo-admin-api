@@ -20,24 +20,6 @@ const roleSchema = new mongoose.Schema(
       enum: ["admin","employee"],
       required: true,
     },
-    // permissions: [
-    //   {
-    //     type: String,
-    //     required: true,
-    //     enum: [
-    //       "manage_admins",
-    //       "manage_users",
-    //       "moderate_content",
-    //       "review_reports",
-    //       "handle_finance",
-    //       "support_tickets",
-    //       "manage_tech",
-    //       "view_analytics",
-    //       "send_notifications",
-    //       "legal_compliance"
-    //     ]
-    //   }
-    // ],
     description: {
       type: String,
       default: ""

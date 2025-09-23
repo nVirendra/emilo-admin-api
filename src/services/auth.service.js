@@ -34,14 +34,14 @@ export const loginService =  async({email, password})=>{
       }
     };
 
-    const accessToken  = generateAccessToken(tokenPayload);
-    const refreshToken = generateRefreshToken(tokenPayload);
+    const authAccessToken  = generateAccessToken(tokenPayload);
+    const authRefreshToken = generateRefreshToken(tokenPayload);
 
     // Update last login
     admin.lastLogin = new Date();
     await admin.save();
 
-    return {accessToken, refreshToken};
+    return {authAccessToken, authRefreshToken};
 
 
 }

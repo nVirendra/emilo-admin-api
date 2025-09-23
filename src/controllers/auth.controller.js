@@ -22,8 +22,8 @@ export const loginUser = asyncHandler(async (req, res)=>{
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     };
 
-    res.cookie("accessToken", result.accessToken, cookieOptions);
-    res.cookie("refreshToken", result.refreshToken, cookieOptions);
+    res.cookie("authAccessToken", result.authAccessToken, cookieOptions);
+    res.cookie("authRefreshToken", result.authRefreshToken, cookieOptions);
 
     return responseHelper.created(res, "Login successfully", result);
 });

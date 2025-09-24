@@ -21,10 +21,16 @@ export const addMenu = async (req, res) => {
 };
 
 // Get All Menus
-export const getMenus = async (req, res) => {
+export const getRoleMenus = async (req, res) => {
   try {
-    const result = await menuService.getMenusService();
-    return responseHelper.success(res, "Menus fetched successfully", result.map(menuResponse));
+    const { roleId } = req.params;
+    const result = await menuService.getMenusService(roleId);
+    // return responseHelper.success(res, "Menus fetched successfully", result.map(menuResponse));
+    return res.json({
+        success: true,
+        message: "menu fetched for role",
+        data: result,
+      });
   } catch (err) {
     console.error("Error in menu.controller getMenus:", err);
     return responseHelper.error(res, "Failed to fetch menus");

@@ -1,4 +1,5 @@
 import { MenuModel } from "../models/clt_menus.js";
+import { RoleMenuPermissionModel } from "../models/clt_role_menu_permissions.js";
 
 //  Add on
 export const addMenuService = async (menus) => {
@@ -7,8 +8,27 @@ export const addMenuService = async (menus) => {
 };
 
 // Get All
-export const getMenusService = async () => {
-  return await MenuModel.find().sort({ order: 1 });
+export const getMenusService = async (roleId) => {
+  // return await MenuModel.find().sort({ order: 1 });
+  return await RoleMenuPermissionModel.aggregate([
+      { $match: { roleId: roleId } },
+      {
+        $lookup: {
+          from: "clt_menus",
+          localField: "menuId",
+          foreignField: "_id",
+          as: "menu",
+        },
+      },
+      { $unwind: "$menu" },
+      {
+        $group: {
+          _id: "$menu.parentId",
+          menus: { $push: "$menu" },
+        },
+      },
+    ]);
+
 };
 
 // Update One

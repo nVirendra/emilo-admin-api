@@ -7,8 +7,10 @@ const router = express.Router();
 // Create menu - only admin role can do this
 router.post("/add-menu", protect, authorize("admin"), MenuController.addMenu);
 
-// Get all menus - any logged-in user
-router.get("/get-menus", protect, MenuController.getMenus);
+// Get all menus for a role
+router.get("/role-menus/:roleId", MenuController.getRoleMenus);
+
+
 
 // Update one menu - only admin role
 router.put("/:id/update", protect, authorize(["admin"]), MenuController.updateMenu);

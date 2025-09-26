@@ -4,18 +4,26 @@ import { protect, authorize } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-// Create menu - only admin role can do this
-router.post("/add-menu", protect, authorize("admin"), MenuController.addMenu);
+// add menu - only admin role
+router.post("/add-menu", protect, MenuController.addMenu);
 
-// Get all menus for a role
-router.get("/role-menus/:roleId", MenuController.getRoleMenus);
-
-
+//get all menus in flat structure with pagination and search
+router.get("/get-flat-menus", protect, MenuController.getFlatMenus);
 
 // Update one menu - only admin role
-router.put("/:id/update", protect, authorize(["admin"]), MenuController.updateMenu);
+router.put("/:id/update", protect, MenuController.updateMenu);
 
 // Delete one menu - only admin role
-router.delete("/:id/delete", protect, authorize("admin"), MenuController.deleteMenu);
+router.delete("/:id/delete", protect, MenuController.deleteMenu);
+
+// Get all menus for a role
+router.get("/permissions", protect, MenuController.getMenusPermissions);
+router.get("/role-menus", protect, MenuController.getRoleMenus);
+router.get("/get-all", protect, MenuController.getAllMenus);
+
+
+
+
+
 
 export default router;

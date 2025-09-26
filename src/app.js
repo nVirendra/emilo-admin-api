@@ -9,6 +9,8 @@ import authRoutes from './routes/auth.routes.js'
 import roleRoutes from './routes/role.routes.js'
 import menuRoutes from './routes/menu.routes.js'
 import userRoutes from './routes/user.routes.js'
+import serviceRoute from './routes/service.route.js'
+import reportRoutes from './routes/report.routes.js'
 
 dotenv.config();
 const app = express();
@@ -39,6 +41,8 @@ app.use('/api/admin/auth',authRoutes);
 app.use('/api/admin/menus',menuRoutes);
 app.use('/api/admin/roles',roleRoutes);
 app.use('/api/admin/users',userRoutes);
+app.use('/api/admin/service',serviceRoute)
+app.use('/api/admin/reports',reportRoutes)
 
 
 app.use(errorHandler);

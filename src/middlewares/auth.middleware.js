@@ -36,6 +36,8 @@ export const protect = async (req, res, next) => {
 
 
 export const authorize = (...allowedRoles) => {
+
+
   return (req, res, next) => {
     if (!req.user?.role?.roleKey) {
         return responseHelper.error(res,"Role not assigned", 403);

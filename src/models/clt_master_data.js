@@ -5,15 +5,23 @@ const MasterDataSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
-      index: true, 
+      index: true,
       enum: [
-        "roleType", 
-        "status", 
-        "category", 
-        "postType", 
-        "reportReason", 
-        "other"
+        "roleType",
+        "status",
+        "category",
+        "postType",
+        "reportReason",
+        "reportStatus",
+        "priority",
+        "other",
       ],
+    },
+    target: {
+      type: String,
+      enum: ["post", "comment", "user"],
+      default: "post",
+      index: true,
     },
     key: {
       type: String,
@@ -31,7 +39,7 @@ const MasterDataSchema = new mongoose.Schema(
     },
     order: {
       type: Number,
-      default: 0, // helps sorting dropdowns
+      default: 0,
     },
     status: {
       type: String,
@@ -44,4 +52,6 @@ const MasterDataSchema = new mongoose.Schema(
 
 MasterDataSchema.index({ type: 1, key: 1 }, { unique: true });
 
-export const MasterDataModel = mongoose.model("clt_master_data", MasterDataSchema);
+const MasterDataModel = mongoose.model("clt_master_data", MasterDataSchema);
+
+export default MasterDataModel;

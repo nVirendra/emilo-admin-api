@@ -12,7 +12,7 @@ export const loginService =  async({email, password})=>{
     /// Check if admin exists
     const admin = await AdminUserModel.findOne({ email }).populate("roleId");
     if (!admin) {
-        throw new AppError("Invalid email or password", 401)
+        throw new AppError("Invalid email or password", 400)
     }
 
     // Check password

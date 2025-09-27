@@ -16,9 +16,18 @@ router.put("/:id/update", protect, MenuController.updateMenu);
 // Delete one menu - only admin role
 router.delete("/:id/delete", protect, MenuController.deleteMenu);
 
+
+
 // Get all menus for a role
 router.get("/permissions", protect, MenuController.getMenusPermissions);
+
+
+//get auth user role menus
 router.get("/role-menus", protect, MenuController.getRoleMenus);
+
+//get auth user role menus
+router.get("/role-menu-permissions/:roleId", protect, MenuController.getRoleMenuPermissions);
+
 router.get("/get-all", protect, MenuController.getAllMenus);
 
 

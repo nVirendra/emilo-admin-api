@@ -14,8 +14,6 @@ export const protect = async (req, res, next) => {
         return responseHelper.error(res,"Not authorized, token missing", 401);
     }
 
-    console.log('token:', token)
-
     const decoded = jwt.verify(token, ENV.JWT_ACCESS_PASS_KEY);
 
     // Attach user to request

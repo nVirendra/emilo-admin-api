@@ -6,12 +6,12 @@ import { menuResponse, permissionResponse } from "../response/menu.response.js";
 
 export const addMenu = async (req, res) => {
   try {
-    const menus = req.body;
-    const result = await menuService.addMenuService(menus);
+    const menu = req.body;
+    const result = await menuService.addMenuService(menu);
     return responseHelper.success(
       res,
       "Menus added successfully",
-      result.map(menuResponse)
+      menuResponse(result)
     );
   } catch (err) {
     console.error("Error in menu.controller addMenu:", err);
@@ -72,6 +72,18 @@ export const getRoleMenus = async (req, res) => {
     return responseHelper.error(res, "Failed to fetch menus");
   }
 };
+
+
+export const getRoleMenuPermissions = async (req, res) => {
+  try {
+    const {roleId}  = req.params;
+    const result = await menuService.getRoleMenuPermissionsService(roleId);
+    return responseHelper.success(res, "Role menu permissions fetched successfully", result);
+  } catch (err) {
+    console.error("Error in menu.controller getRoleMenuPermissions:", err);
+    return responseHelper.error(res, "Failed to fetch role menu permissions");
+  }
+}
 
 
 export const getFlatMenus = async (req, res) => {

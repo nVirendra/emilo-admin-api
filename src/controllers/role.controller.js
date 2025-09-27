@@ -7,9 +7,9 @@ import mongoose from "mongoose";
 
 export const addRole = async (req, res)=>{
     try{
-        const roles = req.body;
-        const result = await roleService.addRoleService(roles);
-        return responseHelper.success(res, 'Roles added successfully', result.map(RoleResponse));
+        const role = req.body;
+        const result = await roleService.addRoleService(role);
+        return responseHelper.success(res, 'Roles added successfully', RoleResponse(result));
     }catch(err){
         console.error('Error in role.controller.controller inside addRole function');
     }

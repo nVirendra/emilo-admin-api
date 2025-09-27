@@ -2,11 +2,41 @@ import { MenuModel } from "../models/clt_menus.js";
 import { RoleMenuPermissionModel } from "../models/clt_role_menu_permissions.js";
 import mongoose from "mongoose";
 import { PermissionModel } from "../models/clt_permissions.js";
-//  Add on
-export const addMenuService = async (menus) => {
-  const data = await MenuModel.insertMany(menus);
-  return data;
+import { RoleModel } from "../models/clt_roles.js";
+
+//  Add one
+export const addMenuService = async (menu) => {
+  
+  const newMenu = await MenuModel.create(menu);
+
+  const superAdminRole = await RoleModel.findOne({ roleKey: "super_admin" });
+  if (!superAdminRole) {
+    throw new AppError("Super Admin role must be created first");
+  }
+
+  const activePermissions = await PermissionModel.find({ status: "ACTIVE" }).lean();
+
+  console.log('menu permission payload',newMenu, {
+    roleId: superAdminRole._id,
+    menuId: newMenu._id,
+    permissions: activePermissions.map((perm) => ({
+      key: perm.key,
+      label: perm.label,
+    })),
+  });
+
+  await RoleMenuPermissionModel.create({
+    roleId: superAdminRole._id,
+    menuId: newMenu._id,
+    permissions: activePermissions.map((perm) => ({
+      key: perm.key,
+      label: perm.label,
+    })),
+  });
+
+  return newMenu;
 };
+
 
 // Get All
 export const getMenusService = async (roleId) => {
@@ -35,6 +65,10 @@ export const getMenusService = async (roleId) => {
   
 };
 
+
+export const getRoleMenuPermissionsService = async (roleId) => {
+  return await RoleMenuPermissionModel.find({ roleId: new mongoose.Types.ObjectId(roleId) }).lean();
+}
 
 
 

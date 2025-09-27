@@ -6,8 +6,8 @@ import { RoleMenuPermissionModel } from "../models/clt_role_menu_permissions.js"
 import { PermissionModel } from "../models/clt_permissions.js";
 import AppError from "../helper/appError.helper.js";
 
-export const addRoleService =  async(roles)=>{
-    const data = await RoleModel.insertMany(roles);
+export const addRoleService =  async(role)=>{
+    const data = await RoleModel.create(role);
     return data;
 }
 
@@ -23,7 +23,7 @@ export const deleteRoleService = async (id) => {
 
 
 export const  getAllRoleService =  async()=>{
-    const data = await RoleModel.find({roleKey:{$ne:"super_admin"}}).lean();
+    const data = await RoleModel.find({roleKey:{$ne:"super_admin"}}).sort({ createdAt: -1 }).lean();
     return data;
 }
 
